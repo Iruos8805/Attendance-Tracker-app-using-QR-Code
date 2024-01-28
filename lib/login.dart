@@ -2,7 +2,9 @@ import 'package:attendence_tracker/constants.dart';
 import 'package:attendence_tracker/home_screen.dart';
 import 'package:attendence_tracker/screens/database_sql.dart';
 import 'package:attendence_tracker/screens/sign_up.dart';
+import 'package:attendence_tracker/views/add_class_screen.dart';
 import 'package:attendence_tracker/views/student_page.dart';
+import 'package:attendence_tracker/widgets/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
@@ -18,10 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late SqliteService sqliteService;
-  Map routes = {
+  Map routes = {};
 
-
-  };
   @override
   void initState() {
     super.initState();
@@ -33,23 +33,10 @@ class _LoginPageState extends State<LoginPage> {
     await sqliteService.initializeDB();
   }
 
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              kpurple,
-              kviolet,
-            ],
-          )),
+      color: Colors.black,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: _page(),
@@ -72,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 50),
             _loginBtn(),
             const SizedBox(height: 20),
-            _extraText(),
+            _signupLink(),
           ],
         ),
       ),
@@ -81,10 +68,11 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _icon() {
     return Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: 2),
-          shape: BoxShape.circle),
-      child: const Icon(Icons.person, color: Colors.white, size: 120),
+      child: Image.asset(
+        "assets/images/attendance2.png",
+        width: 150, // Adjust the width as needed
+        height: 150, // Adjust the height as needed
+      ),
     );
   }
 
@@ -92,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
       {isPassword = false}) {
     var border = OutlineInputBorder(
         borderRadius: BorderRadius.circular(18),
-        borderSide: const BorderSide(color: Colors.white));
+        borderSide: const BorderSide(color: Colors.white54));
 
     return TextField(
       style: const TextStyle(color: Colors.white),
@@ -129,7 +117,6 @@ class _LoginPageState extends State<LoginPage> {
             debugPrint("Login success");
             debugPrint("Response: ${response.body}");
 
-
             Map<String, dynamic> jsonResponse =
             jsonDecode(response.body) as Map<String, dynamic>;
             sqliteService.insertOrUpdateRecord(1, jsonResponse["token"]);
@@ -137,39 +124,41 @@ class _LoginPageState extends State<LoginPage> {
             bool isStudent = jsonResponse["is_student"];
 
             if (isStudent) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => StudentPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => StudentPage()));
             } else {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddClass()));
             }
-
-
           } else {
             debugPrint("User Data: $jsonUserData");
             debugPrint("Status code: ${response.statusCode}");
             debugPrint("Login failed");
-
           }
-
-
         });
-
       },
-      child:  SizedBox(
-          width: double.infinity,
-          child: Text(
-            "Login",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20, color: kpurple1),
-          )),
+      child: SizedBox(
+        width: double.infinity,
+        child: Text(
+          "Login",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20, color: Colors.black),
+        ),
+      ),
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),
         primary: Colors.white,
         onPrimary: Colors.blue,
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(
+            vertical: 12), // Adjust the vertical padding as needed
       ),
     );
   }
-  Widget _extraText() {
+
+  Widget _signupLink() {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -177,17 +166,17 @@ class _LoginPageState extends State<LoginPage> {
           MaterialPageRoute(builder: (context) => SignUpScreen()),
         );
       },
-      child: Text(
-        'Sign Up',
-        style: TextStyle(
-          color: Colors.blue,
-          fontWeight: FontWeight.bold,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        child: Text(
+          '',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            decoration: TextDecoration.underline,
+          ),
         ),
       ),
     );
   }
-
-
-
-
 }

@@ -2,6 +2,7 @@ import 'package:attendence_tracker/constants.dart';
 import 'package:attendence_tracker/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,7 +20,7 @@ class SplashScreenState extends State<SplashScreen>
 
     Future.delayed(
       Duration(
-        seconds: 2,
+        seconds: 4,
       ),
           () {
         Navigator.of(context).pushReplacement(
@@ -41,19 +42,13 @@ class SplashScreenState extends State<SplashScreen>
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [kviolet, kpurple],
-            begin: Alignment.topCenter,
-            end: Alignment.topLeft,
-          ),
-        ),
+        color: Colors.black,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Logo Image
             Image.asset(
-              "assets/images/attendance.png",
+              "assets/images/attendance2.png",
               width: 120, // Adjust the width as needed
               height: 120, // Adjust the height as needed
             ),
@@ -63,9 +58,20 @@ class SplashScreenState extends State<SplashScreen>
             Text(
               'Roll Call',
               style: TextStyle(
-                fontStyle: FontStyle.italic,
+                fontFamily: GoogleFonts.pacifico().fontFamily,
                 color: Colors.white,
                 fontSize: 24,
+              ),
+            ),
+
+            // Additional text below "Roll Call"
+            SizedBox(height: 8), // Adjust the spacing between "Roll Call" and additional text
+            Text(
+              'Scan.Track.Attend',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontFamily: GoogleFonts.sacramento().fontFamily,
               ),
             ),
           ],
