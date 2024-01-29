@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class GenerateQRPage extends StatelessWidget {
-  final String random;
+  final String uid;
 
-  GenerateQRPage({required this.random});
+  GenerateQRPage({required this.uid});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class GenerateQRPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             QrImageView(
-              data: random,
+              data: uid,
               size: 300,
               embeddedImageStyle: QrEmbeddedImageStyle(
                 size: Size(80, 80),
