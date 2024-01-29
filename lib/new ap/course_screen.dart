@@ -196,7 +196,7 @@ class _CourseScreenState extends State<CourseScreen> {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                          SizedBox(width: 145,),
+                                          SizedBox(width: 130,),
                                           IconButton(onPressed: (){}, icon: Icon(Icons.delete_forever_outlined, color: damber, size: 30,))
                                         ],
                                   ),

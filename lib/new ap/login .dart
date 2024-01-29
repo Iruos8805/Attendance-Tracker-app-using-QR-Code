@@ -116,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
             "password": passwordController.text,
           };
           String jsonUserData = jsonEncode(userData);
-      
+
           http
               .post(
             Uri.parse('https://group4attendance.pythonanywhere.com/api/login/'),
@@ -129,13 +129,13 @@ class _LoginPageState extends State<LoginPage> {
             if (response.statusCode == 200) {
               debugPrint("Login success");
               debugPrint("Response: ${response.body}");
-      
+
               Map<String, dynamic> jsonResponse =
               jsonDecode(response.body) as Map<String, dynamic>;
               sqliteService.insertOrUpdateRecord(1, jsonResponse["token"]);
               String token = jsonResponse["token"];
               bool isStudent = jsonResponse["is_student"];
-      
+
               if (isStudent) {
                 Navigator.push(
                   context,
