@@ -1,10 +1,7 @@
 import 'package:attendence_tracker/new%20ap/constants.dart';
-
 import 'package:attendence_tracker/new%20ap/course_screen.dart';
+import 'package:attendence_tracker/new%20ap/database_sql.dart';
 import 'package:attendence_tracker/new%20ap/student_page%20.dart';
-
-import 'package:attendence_tracker/screens/database_sql.dart';
-
 
 import 'package:flutter/material.dart';
 
@@ -116,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
             "password": passwordController.text,
           };
           String jsonUserData = jsonEncode(userData);
-      
+
           http
               .post(
             Uri.parse('https://group4attendance.pythonanywhere.com/api/login/'),
@@ -129,19 +126,18 @@ class _LoginPageState extends State<LoginPage> {
             if (response.statusCode == 200) {
               debugPrint("Login success");
               debugPrint("Response: ${response.body}");
-      
+
               Map<String, dynamic> jsonResponse =
-              jsonDecode(response.body) as Map<String, dynamic>;
+                  jsonDecode(response.body) as Map<String, dynamic>;
               sqliteService.insertOrUpdateRecord(1, jsonResponse["token"]);
               String token = jsonResponse["token"];
               bool isStudent = jsonResponse["is_student"];
-      
+
               if (isStudent) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        StudentPage(uid: jsonResponse["uid"]),
+                    builder: (context) => StudentPage(uid: jsonResponse["uid"]),
                   ),
                 );
               } else {
@@ -169,8 +165,7 @@ class _LoginPageState extends State<LoginPage> {
           shape: const StadiumBorder(),
           primary: Colors.white,
           onPrimary: Colors.blue,
-          padding: const EdgeInsets.symmetric(
-              vertical: 12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
         ),
       ),
     );
