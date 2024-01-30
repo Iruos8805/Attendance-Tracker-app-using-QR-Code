@@ -2,7 +2,9 @@
 
 
 import 'package:attendence_tracker/new%20ap/course_screen.dart';
+import 'package:attendence_tracker/new%20ap/help_centre.dart';
 import 'package:attendence_tracker/new%20ap/login%20.dart';
+import 'package:attendence_tracker/new%20ap/profile_screen.dart';
 import 'package:attendence_tracker/new%20ap/splash_screen.dart';
 
 import 'package:flutter/material.dart';

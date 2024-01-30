@@ -1,13 +1,8 @@
 import 'package:attendence_tracker/new%20ap/constants.dart';
-
 import 'package:attendence_tracker/new%20ap/course_screen.dart';
 import 'package:attendence_tracker/new%20ap/student_page%20.dart';
-
 import 'package:attendence_tracker/screens/database_sql.dart';
-
-
 import 'package:flutter/material.dart';
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as Path;
@@ -22,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
   late SqliteService sqliteService;
   Map routes = {};
+  String errorText = '';
 
   @override
   void initState() {
@@ -66,10 +62,10 @@ class _LoginPageState extends State<LoginPage> {
                 _inputField("Username", usernameController),
                 const SizedBox(height: 20),
                 _inputField("Password", passwordController, isPassword: true),
-                const SizedBox(height: 50),
+                const SizedBox(height: 20),
+                if (errorText.isNotEmpty) _errorText(),
+                const SizedBox(height: 20),
                 _loginBtn(),
-                //const SizedBox(height: 20),
-                // _signupLink(),
               ],
             ),
           ),
@@ -91,8 +87,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget _inputField(String hintText, TextEditingController controller,
       {isPassword = false}) {
     var border = OutlineInputBorder(
-        borderRadius: BorderRadius.circular(18),
-        borderSide: const BorderSide(color: Colors.white54));
+      borderRadius: BorderRadius.circular(18),
+      borderSide: const BorderSide(color: Colors.white54),
+    );
 
     return TextField(
       style: const TextStyle(color: Colors.white),
@@ -102,30 +99,37 @@ class _LoginPageState extends State<LoginPage> {
         hintStyle: const TextStyle(color: Colors.white),
         enabledBorder: border,
         focusedBorder: border,
+        errorText: errorText.isEmpty ? null : errorText,
       ),
       obscureText: isPassword,
     );
   }
 
   Widget _loginBtn() {
-    return SingleChildScrollView(
-      child: ElevatedButton(
-        onPressed: () {
+    return ElevatedButton(
+      onPressed: () {
+        if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
+          setState(() {
+            errorText = 'Username and password are required.';
+          });
+        } else {
+          setState(() {
+            errorText = '';
+          });
+
           Map<String, dynamic> userData = {
             "username": usernameController.text,
             "password": passwordController.text,
           };
           String jsonUserData = jsonEncode(userData);
 
-          http
-              .post(
+          http.post(
             Uri.parse('https://group4attendance.pythonanywhere.com/api/login/'),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
             body: jsonUserData,
-          )
-              .then((http.Response response) {
+          ).then((http.Response response) {
             if (response.statusCode == 200) {
               debugPrint("Login success");
               debugPrint("Response: ${response.body}");
@@ -154,24 +158,36 @@ class _LoginPageState extends State<LoginPage> {
               debugPrint("User Data: $jsonUserData");
               debugPrint("Status code: ${response.statusCode}");
               debugPrint("Login failed");
+              setState(() {
+                errorText = 'Invalid username or password.';
+              });
             }
           });
-        },
-        child: SizedBox(
-          width: double.infinity,
-          child: Text(
-            "Login",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20, color: Colors.black),
-          ),
+        }
+      },
+      child: SizedBox(
+        width: double.infinity,
+        child: Text(
+          "Login",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20, color: Colors.black),
         ),
-        style: ElevatedButton.styleFrom(
-          shape: const StadiumBorder(),
-          primary: Colors.white,
-          onPrimary: Colors.blue,
-          padding: const EdgeInsets.symmetric(
-              vertical: 12),
-        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        shape: const StadiumBorder(),
+        primary: Colors.white,
+        onPrimary: Colors.blue,
+        padding: const EdgeInsets.symmetric(vertical: 12),
+      ),
+    );
+  }
+
+  Widget _errorText() {
+    return Text(
+      errorText,
+      style: TextStyle(
+        color: Colors.red,
+        fontSize: 14,
       ),
     );
   }

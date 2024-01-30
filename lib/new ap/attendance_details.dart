@@ -1,7 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:attendence_tracker/new%20ap/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
+
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 class AttendanceDetail {
   final int courseId;
@@ -68,17 +74,60 @@ class _AttendanceListState extends State<AttendanceList> {
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
-      List<AttendanceDetail> attendanceDetails = data
-          .map((item) => AttendanceDetail.fromJson(item))
-          .where((detail) =>
-      detail.courseId == widget.courseId &&
-          detail.classId == widget.classId &&
-          detail.hourId == widget.hourId)
-          .toList();
+
+      // Use a set to keep track of unique UIDs
+      Set<String> uniqueUids = Set<String>();
+      List<AttendanceDetail> attendanceDetails = [];
+
+      for (var item in data) {
+        AttendanceDetail detail = AttendanceDetail.fromJson(item);
+
+        // Check if the UID is not already in the set
+        if (!uniqueUids.contains(detail.uid)) {
+          uniqueUids.add(detail.uid);
+          attendanceDetails.add(detail);
+        }
+      }
+
       return attendanceDetails;
     } else {
       throw Exception('Failed to load attendance details');
     }
+  }
+
+  Future<void> _downloadAttendancePDF(List<AttendanceDetail> attendanceDetails) async {
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.MultiPage(
+        build: (pw.Context context) {
+          return [
+            pw.Header(level: 0, child: pw.Text('Attendance Details', style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold))),
+            pw.SizedBox(height: 20),
+            for (var detail in attendanceDetails)
+              pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Text('Date: ${detail.date}, Name: ${detail.name}, UID: ${detail.uid}'),
+                  pw.SizedBox(height: 10),
+                ],
+              ),
+          ];
+        },
+      ),
+    );
+
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/attendance_details.pdf');
+    await file.writeAsBytes(await pdf.save());
+
+    if (Platform.isAndroid) {
+      await Printing.sharePdf(bytes: await pdf.save(), filename: 'attendance_details.pdf');
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Attendance PDF downloaded to ${file.path}')),
+    );
   }
 
   @override
@@ -98,7 +147,10 @@ class _AttendanceListState extends State<AttendanceList> {
             ),
             Spacer(),
             IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                final attendanceDetails = await _fetchAttendanceDetails;
+                await _downloadAttendancePDF(attendanceDetails);
+              },
               icon: Icon(
                 Icons.download,
                 size: 30, // Adjust the icon size as needed

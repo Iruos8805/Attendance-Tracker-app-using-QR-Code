@@ -1,4 +1,5 @@
 import 'package:attendence_tracker/new%20ap/constants.dart';
+import 'package:attendence_tracker/new%20ap/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -55,7 +56,7 @@ class _StudentPageState extends State<StudentPage> {
                   // Navigate to another page
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => YourOtherPage()), // Replace with your actual page
+                    MaterialPageRoute(builder: (context) => ProfileScreen()),
                   );
                 },
                 child: Container(
@@ -156,16 +157,4 @@ class _StudentPageState extends State<StudentPage> {
   }
 }
 
-class YourOtherPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Your Other Page'),
-      ),
-      body: Center(
-        child: Text('This is another page!'),
-      ),
-    );
-  }
-}
+

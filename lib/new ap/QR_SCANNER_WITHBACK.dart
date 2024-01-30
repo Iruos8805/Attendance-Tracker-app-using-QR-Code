@@ -61,13 +61,14 @@ class _ScanQRPageState extends State<ScanQRPage> {
           isAlertShown = true; // Set the flag to true to prevent showing again
           return AlertDialog(
             title: Text('Attendance Marked'),
+            backgroundColor: Colors.black,
             content: Text('The attendance has been successfully marked.'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK', style: TextStyle(color: Colors.white)),
+                child: Text('OK', style: TextStyle(color: Colors.black54)),
               ),
             ],
           );

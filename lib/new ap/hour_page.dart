@@ -163,7 +163,7 @@ class _HourPageState extends State<HourPage> {
                                             ),
                                           ),
                                           onTap: () {
-                                            // Navigate to HourDetailsPage when the hour tab is clicked
+
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(

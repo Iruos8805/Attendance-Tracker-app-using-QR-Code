@@ -1,8 +1,8 @@
 import 'package:attendence_tracker/new%20ap/constants.dart';
 import 'package:attendence_tracker/new%20ap/course_screen.dart';
+import 'package:attendence_tracker/new%20ap/database_sql.dart';
 import 'package:attendence_tracker/new%20ap/login%20.dart';
 import 'package:attendence_tracker/new%20ap/student_page%20.dart';
-import 'package:attendence_tracker/screens/database_sql.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => SplashScreenState();
@@ -19,7 +19,6 @@ class SplashScreen extends StatefulWidget {
 class SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late SqliteService sqliteService;
-
   @override
   void initState() {
     super.initState();
@@ -29,61 +28,46 @@ class SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> checkTokenAndNavigate() async {
-    if (sqliteService.getTokenForId(1) != null) {
-      try {
-        await AuthTokenGet();
-        // Navigate to the appropriate page based on the response
-      } catch (e) {
-        print('Error while fetching token: $e');
-        // Navigate to LoginPage regardless of the error
-        navigateToLoginPage();
-      }
-    } else {
-      // No token found, navigate to LoginPage
+    try {
+      await AuthTokenGet();
+    } catch (e) {
+      print('Error while fetching token: $e');
       navigateToLoginPage();
     }
   }
 
   Future<void> AuthTokenGet() async {
+    final token = await sqliteService.getTokenForId(1);
     final response = await http.get(
       Uri.parse('https://group4attendance.pythonanywhere.com/api/student-only'),
-      headers: <String, String>{
-        'Authorization': 'Token ${sqliteService.getTokenForId(1)}',
-      },
+      headers: {'Authorization': 'Token $token'},
     );
-    print("tttttttttttttt");
-    String? result = await sqliteService.getTokenForId(1);
-    print(result);
     print(response.body);
+    print("'Authorization': 'Token $token'");
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       var uid = data['uid'];
       print('PROCEED WITH STUDENT');
       Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => StudentPage(
-            uid: uid,
-          ),
-        ),
-      );
+          context,
+          MaterialPageRoute(
+              builder: (context) => StudentPage(
+                uid: uid,
+              )));
     } else {
-      String result = sqliteService.getTokenForId(1) as String;
-      // If student-only API fails, try teacher-only API
       final teacherResponse = await http.get(
-        Uri.parse('https://group4attendance.pythonanywhere.com/api/teacher-only'),
-        headers: <String, String>{
-          'Authorization': 'Token $result',
-        },
+        Uri.parse(
+            'https://group4attendance.pythonanywhere.com/api/teacher-only'),
+        headers: {'Authorization': 'Token $token'},
       );
+      print("'Authorization': 'Token $token'");
       if (teacherResponse.statusCode == 200) {
         print('PROCEED WITH TEACHER');
         Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => CourseScreen(),
-          ),
-        );
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    CourseScreen()));
       } else {
         // Handle any other cases or errors here
         throw Exception('Unable to authenticate as student or teacher');
@@ -113,28 +97,20 @@ class SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              kdmeroon,
-              kdblue,
-            ],
-          ),
-        ),
+        width: double.infinity,
+        color: kdmeroon,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Logo Image
             Image.asset(
               "assets/images/attendance2.png",
-              width: 120, // Adjust the width as needed
-              height: 120, // Adjust the height as needed
+              width: 120,
+              height: 120,
             ),
-            SizedBox(height: 16), // Adjust the spacing between logo and text
+            SizedBox(height: 16),
 
-            // Text below the logo
+
             Text(
               'Roll Call',
               style: TextStyle(
@@ -144,10 +120,9 @@ class SplashScreenState extends State<SplashScreen>
               ),
             ),
 
-            // Additional text below "Roll Call"
             SizedBox(
-              height: 8,
-            ), // Adjust the spacing between "Roll Call" and additional text
+                height:
+                8),
             Text(
               'Scan.Track.Attend',
               style: TextStyle(

@@ -1,5 +1,6 @@
 import 'package:attendence_tracker/new%20ap/class_screen.dart';
 import 'package:attendence_tracker/new%20ap/constants.dart';
+import 'package:attendence_tracker/new%20ap/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -49,11 +50,25 @@ class _CourseScreenState extends State<CourseScreen> {
 
     if (response.statusCode == 201) {
       print('Course added');
-
-      // Trigger a rebuild of the widget tree to refresh the data
       setState(() {});
     } else {
       print('Failed ${response.statusCode}');
+    }
+  }
+
+  Future<void> _deleteCourse(int courseId) async {
+    final response = await http.delete(
+      Uri.parse('https://group4attendance.pythonanywhere.com/api/courses/$courseId/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 204) {
+      print('Course deleted');
+      setState(() {});
+    } else {
+      print('Failed to delete course: ${response.statusCode}');
     }
   }
 
@@ -95,13 +110,6 @@ class _CourseScreenState extends State<CourseScreen> {
     );
   }
 
-  // void _navigateToOtherPage() {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(builder: (context) => YourOtherPage()), // Replace with your actual page
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -142,7 +150,15 @@ class _CourseScreenState extends State<CourseScreen> {
             children: [
               SizedBox(height: 20,),
               GestureDetector(
-                // onTap: _navigateToOtherPage,
+                onTap: () {
+                  // Navigate to another page when image is tapped
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileScreen(),
+                    ),
+                  );
+                },
                 child: Container(
                   width: 125,
                   height: 125,
@@ -221,7 +237,7 @@ class _CourseScreenState extends State<CourseScreen> {
                                         ),
                                       ),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {_deleteCourse(snapshot.data![index]['id']);},
                                         icon: Icon(Icons.delete_forever_outlined,
                                             color: damber,
                                             size: 30),
@@ -241,19 +257,24 @@ class _CourseScreenState extends State<CourseScreen> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: _createClass,
-          label: Text(
-            'Add Courses',
-            style: TextStyle(
-              color: Colors.white,
+        floatingActionButton: Container(
+          margin: EdgeInsets.only(bottom: 66),
+          child: FloatingActionButton.extended(
+            onPressed: _createClass,
+            label: Text(
+              'Add Courses',
+              style: TextStyle(
+                color: Colors.white,
+              ),
             ),
+            icon: Icon(Icons.add, color: Colors.white),
+            backgroundColor: damber,
           ),
-          icon: Icon(Icons.add, color: Colors.white),
-          backgroundColor: damber,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
   }
 }
+
+
