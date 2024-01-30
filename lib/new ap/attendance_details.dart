@@ -86,14 +86,26 @@ class _AttendanceListState extends State<AttendanceList> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Attendance Details',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Attendance Details',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
-          ),
+            Spacer(),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.download,
+                size: 30, // Adjust the icon size as needed
+                color: Colors.white,
+              ),
+            )
+          ],
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -103,7 +115,6 @@ class _AttendanceListState extends State<AttendanceList> {
         automaticallyImplyLeading: false,
         backgroundColor: damber,
       ),
-
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -115,9 +126,6 @@ class _AttendanceListState extends State<AttendanceList> {
             ],
           ),
         ),
-
-
-
         child: FutureBuilder<List<AttendanceDetail>>(
           future: _fetchAttendanceDetails,
           builder: (context, snapshot) {

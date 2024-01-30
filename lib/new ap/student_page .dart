@@ -1,10 +1,8 @@
 import 'package:attendence_tracker/new%20ap/constants.dart';
-import 'package:attendence_tracker/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flip_card/flip_card.dart';
-import 'package:random_string/random_string.dart';
 
 class StudentPage extends StatefulWidget {
   final String uid;
@@ -52,17 +50,26 @@ class _StudentPageState extends State<StudentPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 5.0),
-                ),
-                child: ClipOval(
-                  child: Image.asset(
-                    'assets/images/graduating-student2.png',
-                    fit: BoxFit.fill,
+              GestureDetector(
+                onTap: () {
+                  // Navigate to another page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => YourOtherPage()), // Replace with your actual page
+                  );
+                },
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 5.0),
+                  ),
+                  child: ClipOval(
+                    child: Image.asset(
+                      'assets/images/graduating-student2.png',
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
               ),
@@ -119,14 +126,14 @@ class _StudentPageState extends State<StudentPage> {
         width: 200,
         height: 200,
         decoration: BoxDecoration(
-          color: Colors.white, // Set the background color to white
+          color: Colors.white,
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(15.0),
           border: Border.all(color: Colors.white, width: 2.0),
         ),
         child: widget.uid.isNotEmpty
             ? Container(
-          color: Colors.white, // Set the background color to white
+          color: Colors.white,
           child: QrImageView(
             data: widget.uid,
             size: 300,
@@ -144,6 +151,20 @@ class _StudentPageState extends State<StudentPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class YourOtherPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Your Other Page'),
+      ),
+      body: Center(
+        child: Text('This is another page!'),
       ),
     );
   }

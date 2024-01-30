@@ -1,9 +1,8 @@
+import 'package:attendence_tracker/new%20ap/class_screen.dart';
 import 'package:attendence_tracker/new%20ap/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:attendence_tracker/new%20ap/class_screen.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CourseScreen extends StatefulWidget {
   const CourseScreen({Key? key}) : super(key: key);
@@ -50,6 +49,9 @@ class _CourseScreenState extends State<CourseScreen> {
 
     if (response.statusCode == 201) {
       print('Course added');
+
+      // Trigger a rebuild of the widget tree to refresh the data
+      setState(() {});
     } else {
       print('Failed ${response.statusCode}');
     }
@@ -71,10 +73,10 @@ class _CourseScreenState extends State<CourseScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Cancel",
-              style: TextStyle(
-                color: Colors.black
-              ),),
+              child: Text(
+                "Cancel",
+                style: TextStyle(color: Colors.black),
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -82,16 +84,23 @@ class _CourseScreenState extends State<CourseScreen> {
                 postcourses(className);
                 Navigator.of(context).pop();
               },
-              child: Text("Add",
-              style: TextStyle(
-                color: Colors.black
-              ),),
+              child: Text(
+                "Add",
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ],
         );
       },
     );
   }
+
+  // void _navigateToOtherPage() {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => YourOtherPage()), // Replace with your actual page
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -111,14 +120,13 @@ class _CourseScreenState extends State<CourseScreen> {
         appBar: AppBar(
           title: Center(
             child: Text(
-            "Teacher's Page",
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              fontFamily: GoogleFonts.lobster().fontFamily,
-              color: Colors.white,
+              "Teacher's Page",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
-                    ),
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
@@ -127,17 +135,31 @@ class _CourseScreenState extends State<CourseScreen> {
           ),
           automaticallyImplyLeading: false,
           backgroundColor: damber,
-
         ),
-
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/images/unnamed.png',
-                width: 150,
-                height: 150,
+              SizedBox(height: 20,),
+              GestureDetector(
+                // onTap: _navigateToOtherPage,
+                child: Container(
+                  width: 125,
+                  height: 125,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 2,
+                    ),
+                  ),
+                  child: ClipOval(
+                    child: Image.asset(
+                      'assets/images/unnamed.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
               ),
               SizedBox(height: 30),
               Padding(
@@ -146,7 +168,6 @@ class _CourseScreenState extends State<CourseScreen> {
                   'Courses',
                   style: TextStyle(
                     fontSize: 25,
-                    fontFamily: GoogleFonts.ibmPlexSerif().fontFamily,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -171,34 +192,41 @@ class _CourseScreenState extends State<CourseScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ClassScreen(courseId: snapshot.data![index]['id']),
+                                  builder: (context) =>
+                                      ClassScreen(courseId: snapshot.data![index]['id']),
                                 ),
                               );
                             },
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0), // Adjust the padding as needed
+                              padding: const EdgeInsets.all(8.0),
                               child: Center(
                                 child: Container(
                                   width: 300,
                                   margin: EdgeInsets.only(bottom: 5),
                                   padding: EdgeInsets.all(20),
                                   decoration: BoxDecoration(
-                                    color:ksecblue,
+                                    color: ksecblue,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Row(
                                     children: [
-                                            Text(
-                                              snapshot.data![index]['course_name'],
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          SizedBox(width: 130,),
-                                          IconButton(onPressed: (){}, icon: Icon(Icons.delete_forever_outlined, color: damber, size: 30,))
-                                        ],
+                                      Expanded(
+                                        child: Text(
+                                          snapshot.data![index]['course_name'],
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(Icons.delete_forever_outlined,
+                                            color: damber,
+                                            size: 30),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
