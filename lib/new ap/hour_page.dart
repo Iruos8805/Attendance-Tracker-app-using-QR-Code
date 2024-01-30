@@ -176,7 +176,6 @@ class _HourPageState extends State<HourPage> {
                                           },
                                           trailing: InkWell(
                                             onTap: () {
-                                              // Navigate to ScanQRPage when the "Scan QR" button is clicked
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(

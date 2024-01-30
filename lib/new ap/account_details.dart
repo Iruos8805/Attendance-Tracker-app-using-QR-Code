@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:attendence_tracker/new%20ap/constants.dart';
 import 'package:attendence_tracker/screens/database_sql.dart';
+import 'package:intl/intl.dart';
 
 class AccountDetailsScreen extends StatefulWidget {
   @override
@@ -11,6 +12,8 @@ class AccountDetailsScreen extends StatefulWidget {
 
 class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   String _token = '';
+  late DateTime _dateandtime;
+  String formattedDate = '';
   bool _isLoading = true;
   late SqliteService sqliteService;
   late Map<String, dynamic> _userData;
@@ -41,13 +44,17 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
         );
         if (teacherResponse.statusCode == 200) {
           _userData = jsonDecode(teacherResponse.body);
+          setState(() {
+            _dateandtime =  DateTime.parse(_userData['date_joined']) ;
+            formattedDate =  DateFormat('yyyy-MM-dd').format(_dateandtime);
+          });
         } else {
           throw Exception('Unable to authenticate as a student or teacher');
         }
       }
     } catch (e) {
       print('Error fetching user data: $e');
-      // Handle error, maybe show a snackbar or display an error message
+
     } finally {
       setState(() {
         _isLoading = false;
@@ -58,23 +65,38 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: damber,
-        title: Text(
-          _userData['is_student']
-              ? 'Student Account Details'
-              : 'Teacher Account Details',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      appBar: PreferredSize(
+        preferredSize: _isLoading ? Size.fromHeight(kToolbarHeight) : AppBar().preferredSize,
+        child: _isLoading
+            ? AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: damber,
+          title: Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(damber),
+            ),
+          ),
+        )
+            : AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: damber,
+          title: Text(
+            _userData['is_student'] ? 'Student Account Details' : 'Teacher Account Details',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
         ),
       ),
       body: _isLoading
-          ? Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-        ),
-      )
+          ? Container(
+        color: kdblue,
+            child: Center(
+                    child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  ),
+          )
           : Container(
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -83,21 +105,24 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildInfoTile('Username', _userData['username']),
-                _buildInfoTile('Full Name', _userData['name']),
-                _buildInfoTile('Email', _userData['email']),
-                _buildInfoTile('Date Joined', _userData['date_joined']),
-                if (_userData['is_student'])
-                  ...[
-                    _buildInfoTile('Roll No', _userData['roll_no']),
-                    _buildInfoTile('Course', _userData['course']),
-                  ],
-              ],
+          padding: const EdgeInsets.all(15),
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildInfoTile('Username', _userData['username']),
+                  _buildInfoTile('Full Name', _userData['name']),
+                  _buildInfoTile('Email', _userData['email']),
+                  _buildInfoTile('Date Joined', formattedDate),
+                  if (_userData['is_student'])
+                    ...[
+                      _buildInfoTile('Roll No', _userData['roll_no']),
+                      _buildInfoTile('Course', _userData['course']),
+                    ],
+                ],
+              ),
             ),
           ),
         ),

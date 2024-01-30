@@ -61,7 +61,7 @@ Future<void> _launchEmail() async {
     Future<void> _showInformationDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: true, // Clicking outside the dialog dismisses it
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Information'),

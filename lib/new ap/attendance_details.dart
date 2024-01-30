@@ -61,7 +61,6 @@ class _AttendanceListState extends State<AttendanceList> {
     super.initState();
     _fetchAttendanceDetails = fetchAttendanceDetails();
   }
-
   Future<List<AttendanceDetail>> fetchAttendanceDetails() async {
     int courseId = widget.courseId;
     int classId = widget.classId;
@@ -75,14 +74,21 @@ class _AttendanceListState extends State<AttendanceList> {
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
 
-      // Use a set to keep track of unique UIDs
+
+      List<AttendanceDetail> filteredDetails = data
+          .map((item) => AttendanceDetail.fromJson(item))
+          .where((detail) =>
+      detail.courseId == courseId &&
+          detail.classId == classId &&
+          detail.hourId == hourId)
+          .toList();
+
+
       Set<String> uniqueUids = Set<String>();
       List<AttendanceDetail> attendanceDetails = [];
 
-      for (var item in data) {
-        AttendanceDetail detail = AttendanceDetail.fromJson(item);
+      for (var detail in filteredDetails) {
 
-        // Check if the UID is not already in the set
         if (!uniqueUids.contains(detail.uid)) {
           uniqueUids.add(detail.uid);
           attendanceDetails.add(detail);
@@ -94,6 +100,7 @@ class _AttendanceListState extends State<AttendanceList> {
       throw Exception('Failed to load attendance details');
     }
   }
+
 
   Future<void> _downloadAttendancePDF(List<AttendanceDetail> attendanceDetails) async {
     final pdf = pw.Document();
@@ -153,7 +160,7 @@ class _AttendanceListState extends State<AttendanceList> {
               },
               icon: Icon(
                 Icons.download,
-                size: 30, // Adjust the icon size as needed
+                size: 30,
                 color: Colors.white,
               ),
             )

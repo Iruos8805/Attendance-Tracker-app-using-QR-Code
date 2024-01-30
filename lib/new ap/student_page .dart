@@ -53,7 +53,7 @@ class _StudentPageState extends State<StudentPage> {
             children: [
               GestureDetector(
                 onTap: () {
-                  // Navigate to another page
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ProfileScreen()),

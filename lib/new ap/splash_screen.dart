@@ -69,7 +69,7 @@ class SplashScreenState extends State<SplashScreen>
                 builder: (context) =>
                     CourseScreen()));
       } else {
-        // Handle any other cases or errors here
+
         throw Exception('Unable to authenticate as student or teacher');
       }
     }

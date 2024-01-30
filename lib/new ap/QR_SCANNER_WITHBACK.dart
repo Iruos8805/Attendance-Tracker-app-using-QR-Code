@@ -1,5 +1,6 @@
 import 'package:attendence_tracker/new%20ap/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -61,8 +62,8 @@ class _ScanQRPageState extends State<ScanQRPage> {
           isAlertShown = true; // Set the flag to true to prevent showing again
           return AlertDialog(
             title: Text('Attendance Marked'),
-            backgroundColor: Colors.black,
-            content: Text('The attendance has been successfully marked.'),
+            backgroundColor: Colors.white,
+            content: Text('The attendance has been successfully marked.', style: TextStyle(fontFamily: GoogleFonts.bebasNeue().fontFamily),),
             actions: [
               TextButton(
                 onPressed: () {

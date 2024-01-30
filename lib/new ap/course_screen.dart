@@ -151,7 +151,7 @@ class _CourseScreenState extends State<CourseScreen> {
               SizedBox(height: 20,),
               GestureDetector(
                 onTap: () {
-                  // Navigate to another page when image is tapped
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
