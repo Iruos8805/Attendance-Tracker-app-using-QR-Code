@@ -1,0 +1,8 @@
+import 'package:flutter/material.dart';
+
+
+const kpurple = Color(0xFF9ba0fc);
+const kviolet = Color(0xFFE1BEE7);
+const kDarkPurple = Color(0xFF6a1b9a);
+const kcharcoal = Color(0xFF101820);
+const kyellow = Color(0xFFFEE715);
