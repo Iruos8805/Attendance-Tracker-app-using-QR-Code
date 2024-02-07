@@ -61,6 +61,7 @@ class _AttendanceListState extends State<AttendanceList> {
     super.initState();
     _fetchAttendanceDetails = fetchAttendanceDetails();
   }
+
   Future<List<AttendanceDetail>> fetchAttendanceDetails() async {
     int courseId = widget.courseId;
     int classId = widget.classId;
@@ -74,21 +75,18 @@ class _AttendanceListState extends State<AttendanceList> {
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
 
-
       List<AttendanceDetail> filteredDetails = data
           .map((item) => AttendanceDetail.fromJson(item))
           .where((detail) =>
-      detail.courseId == courseId &&
-          detail.classId == classId &&
-          detail.hourId == hourId)
+              detail.courseId == courseId &&
+              detail.classId == classId &&
+              detail.hourId == hourId)
           .toList();
-
 
       Set<String> uniqueUids = Set<String>();
       List<AttendanceDetail> attendanceDetails = [];
 
       for (var detail in filteredDetails) {
-
         if (!uniqueUids.contains(detail.uid)) {
           uniqueUids.add(detail.uid);
           attendanceDetails.add(detail);
@@ -101,21 +99,26 @@ class _AttendanceListState extends State<AttendanceList> {
     }
   }
 
-
-  Future<void> _downloadAttendancePDF(List<AttendanceDetail> attendanceDetails) async {
+  Future<void> _downloadAttendancePDF(
+      List<AttendanceDetail> attendanceDetails) async {
     final pdf = pw.Document();
 
     pdf.addPage(
       pw.MultiPage(
         build: (pw.Context context) {
           return [
-            pw.Header(level: 0, child: pw.Text('Attendance Details', style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold))),
+            pw.Header(
+                level: 0,
+                child: pw.Text('Attendance Details',
+                    style: pw.TextStyle(
+                        fontSize: 20, fontWeight: pw.FontWeight.bold))),
             pw.SizedBox(height: 20),
             for (var detail in attendanceDetails)
               pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
-                  pw.Text('Date: ${detail.date}, Name: ${detail.name}, UID: ${detail.uid}'),
+                  pw.Text(
+                      'Date: ${detail.date}, Name: ${detail.name}, UID: ${detail.uid}'),
                   pw.SizedBox(height: 10),
                 ],
               ),
@@ -129,7 +132,8 @@ class _AttendanceListState extends State<AttendanceList> {
     await file.writeAsBytes(await pdf.save());
 
     if (Platform.isAndroid) {
-      await Printing.sharePdf(bytes: await pdf.save(), filename: 'attendance_details.pdf');
+      await Printing.sharePdf(
+          bytes: await pdf.save(), filename: 'attendance_details.pdf');
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -193,7 +197,11 @@ class _AttendanceListState extends State<AttendanceList> {
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text('No attendance details found.'));
+              return Center(
+                  child: Text(
+                'No attendance details found.',
+                style: TextStyle(color: Colors.white),
+              ));
             } else {
               return ListView.builder(
                 itemCount: snapshot.data!.length,

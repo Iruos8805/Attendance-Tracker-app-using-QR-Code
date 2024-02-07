@@ -32,21 +32,23 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
         _token = token!;
       });
       final response = await http.get(
-        Uri.parse('https://group4attendance.pythonanywhere.com/api/student-only'),
+        Uri.parse(
+            'https://group4attendance.pythonanywhere.com/api/student-only'),
         headers: {'Authorization': 'Token $_token'},
       );
       if (response.statusCode == 200) {
         _userData = jsonDecode(response.body);
       } else {
         final teacherResponse = await http.get(
-          Uri.parse('https://group4attendance.pythonanywhere.com/api/teacher-only'),
+          Uri.parse(
+              'https://group4attendance.pythonanywhere.com/api/teacher-only'),
           headers: {'Authorization': 'Token $_token'},
         );
         if (teacherResponse.statusCode == 200) {
           _userData = jsonDecode(teacherResponse.body);
           setState(() {
-            _dateandtime =  DateTime.parse(_userData['date_joined']) ;
-            formattedDate =  DateFormat('yyyy-MM-dd').format(_dateandtime);
+            _dateandtime = DateTime.parse(_userData['date_joined']);
+            formattedDate = DateFormat('yyyy-MM-dd').format(_dateandtime);
           });
         } else {
           throw Exception('Unable to authenticate as a student or teacher');
@@ -54,7 +56,6 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
       }
     } catch (e) {
       print('Error fetching user data: $e');
-
     } finally {
       setState(() {
         _isLoading = false;
@@ -66,67 +67,72 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: _isLoading ? Size.fromHeight(kToolbarHeight) : AppBar().preferredSize,
+        preferredSize: _isLoading
+            ? Size.fromHeight(kToolbarHeight)
+            : AppBar().preferredSize,
         child: _isLoading
             ? AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: damber,
-          title: Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(damber),
-            ),
-          ),
-        )
+                automaticallyImplyLeading: false,
+                backgroundColor: damber,
+                title: Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(damber),
+                  ),
+                ),
+              )
             : AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: damber,
-          title: Text(
-            _userData['is_student'] ? 'Student Account Details' : 'Teacher Account Details',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
+                automaticallyImplyLeading: false,
+                backgroundColor: damber,
+                title: Text(
+                  _userData['is_student']
+                      ? 'Account Details'
+                      : 'Account Details',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
       ),
       body: _isLoading
           ? Container(
-        color: kdblue,
-            child: Center(
-                    child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              color: kdblue,
+              child: Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ),
+            )
+          : Container(
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [kdmeroon, kdblue],
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildInfoTile('Username', _userData['username']),
+                        _buildInfoTile('Full Name', _userData['name']),
+                        _buildInfoTile('Email', _userData['email']),
+                        if (!_userData['is_student'])
+                          _buildInfoTile('Date Joined', formattedDate),
+                        if (_userData['is_student']) ...[
+                          _buildInfoTile('Roll No', _userData['roll_no']),
+                          _buildInfoTile('Course', _userData['course']),
+                        ],
+                      ],
                     ),
                   ),
-          )
-          : Container(
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [kdmeroon, kdblue],
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildInfoTile('Username', _userData['username']),
-                  _buildInfoTile('Full Name', _userData['name']),
-                  _buildInfoTile('Email', _userData['email']),
-                  _buildInfoTile('Date Joined', formattedDate),
-                  if (_userData['is_student'])
-                    ...[
-                      _buildInfoTile('Roll No', _userData['roll_no']),
-                      _buildInfoTile('Course', _userData['course']),
-                    ],
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 

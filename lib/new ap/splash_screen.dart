@@ -1,3 +1,4 @@
+import 'package:attendence_tracker/new%20ap/Student_page_controller.dart';
 import 'package:attendence_tracker/new%20ap/constants.dart';
 import 'package:attendence_tracker/new%20ap/course_screen.dart';
 import 'package:attendence_tracker/new%20ap/database_sql.dart';
@@ -47,13 +48,16 @@ class SplashScreenState extends State<SplashScreen>
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       var uid = data['uid'];
+      var email = data['email'];
       print('PROCEED WITH STUDENT');
+      print(email);
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => StudentPage(
-                uid: uid,
-              )));
+              builder: (context) => StudentPageController(
+                    uid: uid,
+                    email: email,
+                  )));
     } else {
       final teacherResponse = await http.get(
         Uri.parse(
@@ -64,12 +68,8 @@ class SplashScreenState extends State<SplashScreen>
       if (teacherResponse.statusCode == 200) {
         print('PROCEED WITH TEACHER');
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    CourseScreen()));
+            context, MaterialPageRoute(builder: (context) => CourseScreen()));
       } else {
-
         throw Exception('Unable to authenticate as student or teacher');
       }
     }
@@ -78,7 +78,7 @@ class SplashScreenState extends State<SplashScreen>
   void navigateToLoginPage() {
     Future.delayed(
       const Duration(seconds: 2),
-          () {
+      () {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => LoginPage()),
         );
@@ -110,7 +110,6 @@ class SplashScreenState extends State<SplashScreen>
             ),
             SizedBox(height: 16),
 
-
             Text(
               'Roll Call',
               style: TextStyle(
@@ -120,9 +119,7 @@ class SplashScreenState extends State<SplashScreen>
               ),
             ),
 
-            SizedBox(
-                height:
-                8),
+            SizedBox(height: 8),
             Text(
               'Scan.Track.Attend',
               style: TextStyle(

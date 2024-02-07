@@ -53,7 +53,6 @@ class _StudentPageState extends State<StudentPage> {
             children: [
               GestureDetector(
                 onTap: () {
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ProfileScreen()),
@@ -134,27 +133,25 @@ class _StudentPageState extends State<StudentPage> {
         ),
         child: widget.uid.isNotEmpty
             ? Container(
-          color: Colors.white,
-          child: QrImageView(
-            data: widget.uid,
-            size: 300,
-            embeddedImageStyle: QrEmbeddedImageStyle(
-              size: Size(80, 80),
-            ),
-          ),
-        )
+                color: Colors.white,
+                child: QrImageView(
+                  data: widget.uid,
+                  size: 300,
+                  embeddedImageStyle: QrEmbeddedImageStyle(
+                    size: Size(80, 80),
+                  ),
+                ),
+              )
             : Center(
-          child: Text(
-            'Error: Invalid QR data',
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 16,
-            ),
-          ),
-        ),
+                child: Text(
+                  'Error: Invalid QR data',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
       ),
     );
   }
 }
-
-

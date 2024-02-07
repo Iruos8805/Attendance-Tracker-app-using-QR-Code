@@ -3,13 +3,10 @@ import 'package:attendence_tracker/new%20ap/constants.dart';
 import 'package:attendence_tracker/new%20ap/help_centre.dart';
 import 'package:attendence_tracker/new%20ap/login%20.dart';
 import 'package:attendence_tracker/new%20ap/profcomponents.dart';
-import 'package:attendence_tracker/new%20ap/profile_pic.dart';
 import 'package:attendence_tracker/screens/database_sql.dart';
 import 'package:flutter/material.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-
 
 class ProfileScreen extends StatefulWidget {
   static String routeName = "/profile";
@@ -21,7 +18,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-   late SqliteService sqliteService;
+  late SqliteService sqliteService;
+
   @override
   void initState() {
     super.initState();
@@ -41,24 +39,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => LoginPage()),
       );
-    }
-    else{
+    } else {
       print(response.statusCode);
     }
   }
 
-Future<void> _launchEmail() async {
-  // ignore: deprecated_member_use
-  var url = launch("mailto:ashwinpraveengo@gmail.com");
-  await launch("mailto:ashwinpraveengo@gmail.com");
-  // if (await launch(url)) {
-  //   await launch(url);
-  // } else {
-  //   throw 'Could not launch $url';
-  // }
-}
+  Future<void> _launchEmail() async {
+    var url = "mailto:ashwinpraveengo@gmail.com";
+    await launch(url);
+  }
 
-    Future<void> _showInformationDialog(BuildContext context) async {
+  Future<void> _showInformationDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
@@ -70,7 +61,8 @@ Future<void> _launchEmail() async {
               children: <Widget>[
                 _buildInfoRow('Product Version', '1.0'),
                 _buildInfoRow('Database Version', '1.0'),
-                _buildInfoRow('Company Name & Address', 'HiveSpark, Amrita VishwaVidyapeetham, Amritapuri'),
+                _buildInfoRow(
+                    'Company Name & Address', 'HiveSpark, Amrita VishwaVidyapeetham, Amritapuri'),
               ],
             ),
           ),
@@ -79,10 +71,10 @@ Future<void> _launchEmail() async {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Close',
-              style: TextStyle(
-                color: Colors.black
-              ),),
+              child: Text(
+                'Close',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ],
         );
@@ -111,7 +103,6 @@ Future<void> _launchEmail() async {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,55 +111,68 @@ Future<void> _launchEmail() async {
         automaticallyImplyLeading: false,
         backgroundColor: kdblue,
       ),
-      backgroundColor: kdblue, 
+      backgroundColor: kdblue,
       body: Container(
-                decoration: BoxDecoration(
+        decoration: BoxDecoration(
           color: kdblue,
         ),
-        child: SingleChildScrollView(
-          
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: Column(
-            children: [
-              // const ProfilePic(),
-              const SizedBox(height: 80),
-              ProfileMenu(
-                text: "My Account",
-                icon: Icons.account_circle_rounded,
-                press: () => {Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => AccountDetailsScreen()),
-    )},
-              ),
-              ProfileMenu(
-                text: "Help Center",
-                icon: Icons.help_center,
-                press: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>HelpCentrePage()));
-                },
-              ),
-              ProfileMenu(
-                text: "Contact Admin",
-                icon: Icons.admin_panel_settings,
-                press: () {_launchEmail();},
-              ),
-              ProfileMenu(
-                text: "Log Out",
-                icon: Icons.logout_outlined,
-                press: () {LogoutUser();},
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            Image.asset(
+              "assets/images/school.png", // Replace with your image asset
+              width: 100,
+              fit: BoxFit.cover,
+            ),
+            const SizedBox(height: 20),
+            ProfileMenu(
+              text: "My Account",
+              icon: Icons.account_circle_rounded,
+              press: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AccountDetailsScreen()),
+                )
+              },
+            ),
+            ProfileMenu(
+              text: "Help Center",
+              icon: Icons.help_center,
+              press: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HelpCentrePage()));
+              },
+            ),
+            ProfileMenu(
+              text: "Contact Admin",
+              icon: Icons.admin_panel_settings,
+              press: () {
+                _launchEmail();
+              },
+            ),
+            ProfileMenu(
+              text: "Log Out",
+              icon: Icons.logout_outlined,
+              press: () {
+                LogoutUser();
+              },
+            ),
+          ],
         ),
       ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.info_outline_rounded,color: Colors.white,),
+        child: Icon(
+          Icons.info_outline_rounded,
+          color: Colors.white,
+        ),
         backgroundColor: kdblue,
-        onPressed: () {_showInformationDialog(context);}
+        onPressed: () {
+          _showInformationDialog(context);
+        },
       ),
-      
-
-      );
+    );
   }
 }

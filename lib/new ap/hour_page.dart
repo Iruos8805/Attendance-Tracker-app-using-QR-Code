@@ -10,7 +10,8 @@ class HourPage extends StatefulWidget {
   final int courseId;
   final int classId;
 
-  const HourPage({Key? key, required this.courseId, required this.classId}) : super(key: key);
+  const HourPage({Key? key, required this.courseId, required this.classId})
+      : super(key: key);
 
   @override
   _HourPageState createState() => _HourPageState();
@@ -29,7 +30,8 @@ class _HourPageState extends State<HourPage> {
 
   Future<List<dynamic>> fetchHours(int courseId, int classId) async {
     final response = await http.get(
-      Uri.parse('https://group4attendance.pythonanywhere.com/api/courses/$courseId/classes/$classId/hours/'),
+      Uri.parse(
+          'https://group4attendance.pythonanywhere.com/api/courses/$courseId/classes/$classId/hours/'),
     );
 
     if (response.statusCode == 200) {
@@ -44,10 +46,12 @@ class _HourPageState extends State<HourPage> {
     final courseId = widget.courseId;
     final classId = widget.classId;
 
-    String formattedDateTime = DateFormat('yyyy-MM-ddTHH:mm:ss.SSSSSSZ').format(DateTime.now());
+    String formattedDateTime =
+        DateFormat('yyyy-MM-ddTHH:mm:ss.SSSSSSZ').format(DateTime.now());
 
     var response = await http.post(
-      Uri.parse('https://group4attendance.pythonanywhere.com/api/courses/$courseId/classes/$classId/hours/'),
+      Uri.parse(
+          'https://group4attendance.pythonanywhere.com/api/courses/$courseId/classes/$classId/hours/'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -133,12 +137,22 @@ class _HourPageState extends State<HourPage> {
                     child: FutureBuilder<List<dynamic>>(
                       future: _fetchHours,
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return Center(child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
-                          return Center(child: Text('Error: ${snapshot.error}', style: TextStyle(color: Colors.white),));
-                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                          return Center(child: Text('No hours found.', style: TextStyle(color: Colors.white),));
+                          return Center(
+                              child: Text(
+                            'Error: ${snapshot.error}',
+                            style: TextStyle(color: Colors.white),
+                          ));
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return Center(
+                              child: Text(
+                            'No hours found.',
+                            style: TextStyle(color: Colors.white),
+                          ));
                         } else {
                           return ListView.builder(
                             itemCount: snapshot.data!.length,
@@ -158,18 +172,22 @@ class _HourPageState extends State<HourPage> {
                                           title: Center(
                                             child: Text(
                                               snapshot.data![index]['hour'],
-                                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,
-                                              fontSize: 20),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
                                             ),
                                           ),
                                           onTap: () {
-
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => AttendanceList( courseId: widget.courseId,
+                                                builder: (context) =>
+                                                    AttendanceList(
+                                                  courseId: widget.courseId,
                                                   classId: widget.classId,
-                                                  hourId: snapshot.data![index]['id'],
+                                                  hourId: snapshot.data![index]
+                                                      ['id'],
                                                 ),
                                               ),
                                             );
@@ -179,10 +197,12 @@ class _HourPageState extends State<HourPage> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => ScanQRPage(
+                                                  builder: (context) =>
+                                                      ScanQRPage(
                                                     courseId: widget.courseId,
                                                     classId: widget.classId,
-                                                    hourId: snapshot.data![index]['id'],
+                                                    hourId: snapshot
+                                                        .data![index]['id'],
                                                   ),
                                                 ),
                                               );
@@ -191,13 +211,15 @@ class _HourPageState extends State<HourPage> {
                                               padding: EdgeInsets.all(10),
                                               decoration: BoxDecoration(
                                                 color: damber,
-                                                borderRadius: BorderRadius.circular(8),
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Text(
                                                 'Scan QR',
-                                                style: TextStyle(color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16),
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16),
                                               ),
                                             ),
                                           ),
@@ -239,8 +261,10 @@ class _HourPageState extends State<HourPage> {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text('Cancel',
-                      style: TextStyle(color: Colors.black54),),
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(color: Colors.black54),
+                      ),
                     ),
                     ElevatedButton(
                       onPressed: () {
@@ -271,6 +295,3 @@ class _HourPageState extends State<HourPage> {
     );
   }
 }
-
-
-

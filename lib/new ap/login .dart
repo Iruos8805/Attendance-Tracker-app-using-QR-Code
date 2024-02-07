@@ -1,3 +1,6 @@
+// ignore_for_file: unused_import
+
+import 'package:attendence_tracker/new%20ap/Student_page_controller.dart';
 import 'package:attendence_tracker/new%20ap/constants.dart';
 import 'package:attendence_tracker/new%20ap/course_screen.dart';
 import 'package:attendence_tracker/new%20ap/student_page%20.dart';
@@ -108,7 +111,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget _loginBtn() {
     return ElevatedButton(
       onPressed: () {
-        if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
+        if (usernameController.text.isEmpty ||
+            passwordController.text.isEmpty) {
           setState(() {
             errorText = 'Username and password are required.';
           });
@@ -123,29 +127,33 @@ class _LoginPageState extends State<LoginPage> {
           };
           String jsonUserData = jsonEncode(userData);
 
-          http.post(
+          http
+              .post(
             Uri.parse('https://group4attendance.pythonanywhere.com/api/login/'),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
             body: jsonUserData,
-          ).then((http.Response response) {
+          )
+              .then((http.Response response) {
             if (response.statusCode == 200) {
               debugPrint("Login success");
               debugPrint("Response: ${response.body}");
 
               Map<String, dynamic> jsonResponse =
-              jsonDecode(response.body) as Map<String, dynamic>;
+                  jsonDecode(response.body) as Map<String, dynamic>;
               sqliteService.insertOrUpdateRecord(1, jsonResponse["token"]);
               String token = jsonResponse["token"];
               bool isStudent = jsonResponse["is_student"];
-
+              print(jsonResponse['email']);
               if (isStudent) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        StudentPage(uid: jsonResponse["uid"]),
+                    builder: (context) => StudentPageController(
+                      uid: jsonResponse["uid"],
+                      email: jsonResponse["email"],
+                    ),
                   ),
                 );
               } else {
@@ -174,9 +182,9 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.blue,
+        backgroundColor: Colors.white,
         shape: const StadiumBorder(),
-        primary: Colors.white,
-        onPrimary: Colors.blue,
         padding: const EdgeInsets.symmetric(vertical: 12),
       ),
     );

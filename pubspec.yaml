@@ -2,7 +2,7 @@ name: attendence_tracker
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.4 <4.0.0'
+  sdk: ">=3.2.4 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,7 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -51,7 +50,7 @@ dependencies:
   pdf:
   printing:
   url_launcher: ^6.2.4
-
+  flutter_windowmanager: ^0.2.0
 
 dev_dependencies:
   flutter_test:
@@ -59,13 +58,9 @@ dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
 
 flutter_launcher_icons:
-    android: "launcher_icon"
-    ios: true
-    image_path: "assets/images/attendance2.png"
-
-
-
-
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/attendance2.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -79,7 +74,6 @@ flutter_lints: ^2.0.0
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -87,7 +81,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/images/
+    - assets/images/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
