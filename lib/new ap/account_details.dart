@@ -1,8 +1,8 @@
+import 'package:attendence_tracker/new%20ap/database_sql.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:attendence_tracker/new%20ap/constants.dart';
-import 'package:attendence_tracker/screens/database_sql.dart';
 import 'package:intl/intl.dart';
 
 class AccountDetailsScreen extends StatefulWidget {
@@ -73,16 +73,16 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
         child: _isLoading
             ? AppBar(
                 automaticallyImplyLeading: false,
-                backgroundColor: damber,
+                backgroundColor: Color.fromRGBO(0, 73, 149, 1),
                 title: Center(
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(damber),
+                    valueColor: AlwaysStoppedAnimation<Color>(Color.fromRGBO(0, 73, 149, 1)),
                   ),
                 ),
               )
             : AppBar(
                 automaticallyImplyLeading: false,
-                backgroundColor: damber,
+                backgroundColor: Color.fromRGBO(0, 72, 149, 0.918),
                 title: Text(
                   _userData['is_student']
                       ? 'Account Details'

@@ -142,7 +142,7 @@ class _CourseScreenState extends State<CourseScreen> {
             ),
           ),
           automaticallyImplyLeading: false,
-          backgroundColor: damber,
+          backgroundColor: Colors.white10,
         ),
         body: SafeArea(
           child: Column(
@@ -239,7 +239,7 @@ class _CourseScreenState extends State<CourseScreen> {
                                       IconButton(
                                         onPressed: () {_deleteCourse(snapshot.data![index]['id']);},
                                         icon: Icon(Icons.delete_forever_outlined,
-                                            color: damber,
+                                            color: Color.fromARGB(255, 2, 10, 34),
                                             size: 30),
                                       ),
                                     ],
@@ -268,7 +268,7 @@ class _CourseScreenState extends State<CourseScreen> {
               ),
             ),
             icon: Icon(Icons.add, color: Colors.white),
-            backgroundColor: damber,
+            backgroundColor: Color.fromARGB(255, 21, 28, 51),
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

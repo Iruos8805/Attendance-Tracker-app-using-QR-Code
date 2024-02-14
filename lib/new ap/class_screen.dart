@@ -119,7 +119,7 @@ class _ClassScreenState extends State<ClassScreen> {
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
-        backgroundColor: damber,
+        backgroundColor: Colors.white10,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(30),
@@ -220,7 +220,7 @@ class _ClassScreenState extends State<ClassScreen> {
           ),
         ),
         icon: Icon(Icons.add, color: Colors.white),
-        backgroundColor: damber,
+        backgroundColor: Color.fromARGB(255, 21, 28, 51),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       extendBodyBehindAppBar: true,

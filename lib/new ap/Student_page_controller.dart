@@ -1,3 +1,4 @@
+import 'package:attendence_tracker/new%20ap/constants.dart';
 import 'package:attendence_tracker/new%20ap/profile_screen.dart';
 import 'package:attendence_tracker/new%20ap/student_page%20.dart';
 import 'package:attendence_tracker/new%20ap/studetns_attandance_det.dart';
@@ -19,19 +20,19 @@ class _StudentPageControllerState extends State<StudentPageController> {
     const BottomNavigationBarItem(
         icon: Icon(
           Icons.home,
-          color: Colors.green,
+          color: kdblue,
         ),
         label: "Home"),
     const BottomNavigationBarItem(
         icon: Icon(
           Icons.article_rounded,
-          color: Colors.blueGrey,
+          color: kdblue,
         ),
         label: "Attendance"),
     const BottomNavigationBarItem(
         icon: Icon(
           Icons.account_circle,
-          color: Colors.yellow,
+          color: kdblue,
         ),
         label: "Profile"),
   ];

@@ -3,8 +3,8 @@
 import 'package:attendence_tracker/new%20ap/Student_page_controller.dart';
 import 'package:attendence_tracker/new%20ap/constants.dart';
 import 'package:attendence_tracker/new%20ap/course_screen.dart';
+import 'package:attendence_tracker/new%20ap/database_sql.dart';
 import 'package:attendence_tracker/new%20ap/student_page%20.dart';
-import 'package:attendence_tracker/screens/database_sql.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -194,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
     return Text(
       errorText,
       style: TextStyle(
-        color: Colors.red,
+        color: const Color.fromARGB(255, 255, 255, 255),
         fontSize: 14,
       ),
     );

@@ -1,9 +1,9 @@
 import 'package:attendence_tracker/new%20ap/account_details.dart';
 import 'package:attendence_tracker/new%20ap/constants.dart';
+import 'package:attendence_tracker/new%20ap/database_sql.dart';
 import 'package:attendence_tracker/new%20ap/help_centre.dart';
 import 'package:attendence_tracker/new%20ap/login%20.dart';
 import 'package:attendence_tracker/new%20ap/profcomponents.dart';
-import 'package:attendence_tracker/screens/database_sql.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;

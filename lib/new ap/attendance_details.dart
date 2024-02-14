@@ -176,7 +176,7 @@ class _AttendanceListState extends State<AttendanceList> {
           ),
         ),
         automaticallyImplyLeading: false,
-        backgroundColor: damber,
+        backgroundColor: Colors.white10,
       ),
       body: Container(
         decoration: const BoxDecoration(

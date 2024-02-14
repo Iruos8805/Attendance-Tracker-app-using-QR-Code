@@ -95,7 +95,7 @@ class _HourPageState extends State<HourPage> {
           ),
         ),
         automaticallyImplyLeading: false,
-        backgroundColor: damber,
+        backgroundColor: Colors.white10,
       ),
       body: Stack(
         children: [
@@ -210,7 +210,7 @@ class _HourPageState extends State<HourPage> {
                                             child: Container(
                                               padding: EdgeInsets.all(10),
                                               decoration: BoxDecoration(
-                                                color: damber,
+                                                color: Color.fromARGB(255, 21, 28, 51),
                                                 borderRadius:
                                                     BorderRadius.circular(8),
                                               ),
@@ -288,7 +288,7 @@ class _HourPageState extends State<HourPage> {
             '+   Add Hour ',
             style: TextStyle(color: Colors.white),
           ),
-          backgroundColor: damber,
+          backgroundColor: Color.fromARGB(255, 21, 28, 51),
         ),
       ),
       backgroundColor: Colors.white,
