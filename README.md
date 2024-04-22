@@ -1,16 +1,16 @@
 ### Attendance tracker using QR code mechanism
 The objective is to develop an attendance tracking app which uses QR code mechanisms, erving as a precursor to a broader concept.
 
-### Features
+## Features
 
-## Student-end
+### Student-end
 
 Students signup/signin to their page to generate thier unique QR code. 
 Students can scan this QR code to record their attendance.
 Students can also view their attendance details.
 Students can also view their profile.
 
-## Teachers-end
+### Teachers-end
 
 Teachers signup/signin to their respective pages.
 Teahers can create courses (ex: S1 CSE AI).
@@ -21,7 +21,7 @@ Teachers can click on the respective Hours to generate attendance details of tha
 This attendance report can be downloaded if needed.
 Teachers can also view their respective profile page.
 
-## Future updates
+### Future updates
 
 Integration of the scanner system (multiple scanners) to each classroom, so that students can scan their attendance quickly and efficiently. This data will then be stored in a centralised system.
 
