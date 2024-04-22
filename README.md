@@ -1,6 +1,27 @@
-# Attendance tracker using QR code mechanism
+### Attendance tracker using QR code mechanism
+The objective is to develop an attendance tracking app which uses QR code mechanisms, erving as a precursor to a broader concept.
 
+### Features
 
-The objective is to develop an attendance tracking app, serving as a precursor to a broader concept. In each classroom, QR code scanners enable students to easily log their attendance by scanning their unique QR codes. Teachers can create class schedules with specified time slots for different subjects. During these sessions, students use the designated scanners to scan their QR codes, automatically marking their attendance.
+## Student-end
 
-After a successful scan, the attendance information is instantly recorded. Teachers can access a detailed attendance list, viewable and downloadable for administrative purposes. Additionally, students are also able to view their attendance report, ensuring they stay informed about their class participation.
+Students signup/signin to their page to generate thier unique QR code. 
+Students can scan this QR code to record their attendance.
+Students can also view their attendance details.
+Students can also view their profile.
+
+## Teachers-end
+
+Teachers signup/signin to their respective pages.
+Teahers can create courses (ex: S1 CSE AI).
+Teachers can create Class (subject) in each course. (ex: C programming in S1 CSE AI).
+Teachers can create Hour in each Class. (ex: Hour 1 in C programming in  S1 CSE AI).
+Once the Hours are created, Teachers can click on 'Scan QR' button of each Hour, to scan the Hour's respective Attendance.
+Teachers can click on the respective Hours to generate attendance details of that particular Hour.
+This attendance report can be downloaded if needed.
+Teachers can also view their respective profile page.
+
+## Future updates
+
+Integration of the scanner system (multiple scanners) to each classroom, so that students can scan their attendance quickly and efficiently. This data will then be stored in a centralised system.
+
