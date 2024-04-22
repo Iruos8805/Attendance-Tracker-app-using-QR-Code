@@ -1,4 +1,4 @@
-### Attendance tracker using QR code mechanism
+# Attendance tracker using QR code mechanism
 The objective is to develop an attendance tracking app which uses QR code mechanisms, erving as a precursor to a broader concept.
 
 ## Features
