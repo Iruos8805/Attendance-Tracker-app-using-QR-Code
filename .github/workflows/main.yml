@@ -1,0 +1,40 @@
+name: Flutter CI/CD
+
+on:
+  push:
+    branches:
+      - master
+      - new_splash
+      - splash_login_student
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '2.x' # Adjust the Flutter version as needed
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Run tests
+      run: flutter test
+
+    - name: Build APK
+      run: flutter build apk
+
+    # Additional steps for building iOS app (if needed)
+    # - name: Build iOS app
+    #   run: flutter build ios
+
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-release
+        path: build/app/outputs/flutter-apk/app-release.apk # Adjust the path based on your project structure
