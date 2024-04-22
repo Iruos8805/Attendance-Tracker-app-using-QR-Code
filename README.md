@@ -5,10 +5,10 @@ The objective is to develop an attendance tracking app which uses QR code mechan
 
 ### Student-end
 
-Students signup/signin to their page to generate thier unique QR code. 
-Students can scan this QR code to record their attendance.
-Students can also view their attendance details.
-Students can also view their profile.
+1)Students signup/signin to their page to generate thier unique QR code. 
+2)Students can scan this QR code to record their attendance.
+3)Students can also view their attendance details.
+4)Students can also view their profile.
 
 ### Teachers-end
 
