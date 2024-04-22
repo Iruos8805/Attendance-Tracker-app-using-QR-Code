@@ -12,22 +12,14 @@ Students can also view their profile.
 
 ### Teachers-end
 
-Teachers signup/signin to their respective pages.
-Teahers can create courses (ex: S1 CSE AI).
-Teachers can create Class (subject) in each course. (ex: C programming in S1 CSE AI).
-Teachers can create Hour in each Class. (ex: Hour 1 in C programming in  S1 CSE AI).
-Once the Hours are created, Teachers can click on 'Scan QR' button of each Hour, to scan the Hour's respective Attendance.
-Teachers can click on the respective Hours to generate attendance details of that particular Hour.
-This attendance report can be downloaded if needed.
-Teachers can also view their respective profile page.
-
-### Demo 
-
-
-
-
-
-
+1) Teachers signup/signin to their respective pages.
+2) Teahers can create courses (ex: S1 CSE AI).
+3) Teachers can create Class (subject) in each course. (ex: C programming in S1 CSE AI).
+4) Teachers can create Hour in each Class. (ex: Hour 1 in C programming in  S1 CSE AI).
+5) Once the Hours are created, Teachers can click on 'Scan QR' button of each Hour, to scan the Hour's respective Attendance.
+6) Teachers can click on the respective Hours to generate attendance details of that particular Hour.
+7) This attendance report can be downloaded if needed.
+8) Teachers can also view their respective profile page.
 
 ### Future updates
 
